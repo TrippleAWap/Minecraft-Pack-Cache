@@ -1,1 +1,29 @@
-asd
+# Minecraft Pack Cache
+
+![Minecraft Pack Cache Logo](![logo](https://github.com/TrippleAWap/Minecraft-Pack-Cache/assets/90356816/f557c5a6-11f3-479a-b546-ecfef2a17b73))
+
+> A repository for caching Minecraft behaviour packs for loss prevention aswell as a way to supply the MCBE Community with
+
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![GitHub Stars](https://img.shields.io/github/stars/TrippleAWap/Minecraft-Pack-Cache.svg)](https://github.com/TrippleAWap/Minecraft-Pack-Cache/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/TrippleAWap/Minecraft-Pack-Cache.svg)](https://github.com/TrippleAWap/Minecraft-Pack-Cache/network/members)
+
+## Introduction
+
+Welcome to the Minecraft Pack Cache repository! This project aims to speed up the creation process of Minecraft behaviour packs by providing a caching mechanism.
+
+## Features
+
+- Cache and serve Minecraft behaviour packs.
+- Speed up download times for players.
+- Efficient and easy-to-use.
+
+## Getting Started
+
+To get started with Minecraft Pack Cache, follow these steps:
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/TrippleAWap/Minecraft-Pack-Cache.git
+   cd Minecraft-Pack-Cache
+  ```
