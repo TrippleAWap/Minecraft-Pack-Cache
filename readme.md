@@ -1,7 +1,5 @@
 # Minecraft Pack Cache
 
-[![Minecraft Pack Cache Logo](https://github.com/TrippleAWap/Minecraft-Pack-Cache/assets/90356816/45cbeb15-cb2d-4693-ab5d-0ed328ad29ad)](LOGO)
-
 > A repository for caching Minecraft behaviour packs for loss prevention aswell as a way to supply the MCBE Community with
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
