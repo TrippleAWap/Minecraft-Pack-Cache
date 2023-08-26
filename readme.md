@@ -1,6 +1,6 @@
 # Minecraft Pack Cache
 
-![Minecraft Pack Cache Logo](https://github.com/TrippleAWap/Minecraft-Pack-Cache/blob/main/logo.jpeg)
+[![Minecraft Pack Cache Logo](https://github.com/TrippleAWap/Minecraft-Pack-Cache/blob/main/logo.jpeg)](LOGO)
 
 > A repository for caching Minecraft behaviour packs for loss prevention aswell as a way to supply the MCBE Community with
 
