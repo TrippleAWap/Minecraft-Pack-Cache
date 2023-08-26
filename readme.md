@@ -2,7 +2,7 @@
 
 > A repository for caching Minecraft behaviour packs for loss prevention aswell as a way to supply the MCBE Community with
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Mozilla Public License 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/TrippleAWap/Minecraft-Pack-Cache.svg)](https://github.com/TrippleAWap/Minecraft-Pack-Cache/stargazers)
 [![GitHub Forks](https://img.shields.io/github/forks/TrippleAWap/Minecraft-Pack-Cache.svg)](https://github.com/TrippleAWap/Minecraft-Pack-Cache/network/members)
 
