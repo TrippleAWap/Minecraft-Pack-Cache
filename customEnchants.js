@@ -31,7 +31,6 @@
             if (updatedItem) inv.setItem(player.selectedSlot, updatedItem);
         }
     })
-
 */
 
 import {ItemStack, system, world} from "@minecraft/server";
