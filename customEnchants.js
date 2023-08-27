@@ -1,3 +1,39 @@
+/**
+    Example Code Below
+    import { system, world } from "@minecraft/server";
+    import { CustomEnchant } from "./customEnchants.js";
+    
+    const poison = new CustomEnchant("Poison");
+    
+    poison.on.entityHitEntity(({ damagingEntity: player, hitEntity: target, enchant }) => {
+        if ((player[enchant.name] ?? 0) + 3000 > Date.now()) return;
+        player[enchant.name] = Date.now();
+        target.addEffect("fatal_poison", enchant.level * 20, { showParticles: true, amplifier: enchant.level * 0.3 + 3})
+    })
+    
+    poison.init();
+    
+    const brutality = new CustomEnchant("Brutality");
+    
+    brutality.on.entityHitEntity(({ damagingEntity: player, hitEntity: target, enchant }) => {
+        target.applyDamage(enchant.level * 0.3, { damagingEntity: player, cause: "entityAttack" });
+    })
+    
+    brutality.init();
+    
+    system.runInterval(() => {
+        const players = world.getAllPlayers()
+        for (const player of players) {
+            const inv = player.getComponent("minecraft:inventory").container
+            const item = inv.getItem(player.selectedSlot);
+            if (!item) continue;
+            const updatedItem = item.setCustomEnchantment("Poison", 100).setCustomEnchantment("Brutality", 1);
+            if (updatedItem) inv.setItem(player.selectedSlot, updatedItem);
+        }
+    })
+
+*/
+
 import {ItemStack, system, world} from "@minecraft/server";
 
 const singulators = {
