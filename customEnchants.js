@@ -1,59 +1,15 @@
-/**
-  This is most dynamic and auto updating! Only thing required to manually update may be types! If types arent changed functionality shouldn't change either!
-  Listed below is 2 custom enchants for reference!
-  ---------------------------------------------------------------------------------------------------------------------
-  const poison = new CustomEnchant("Poison");
-  
-  poison.on.entityHitEntity(({ damagingEntity: player, hitEntity: target, enchant }) => {
-      if ((player[enchant.name] ?? 0) + 3000 > Date.now()) return;
-      player[enchant.name] = Date.now();
-      target.addEffect(`poison`, enchant.level * 20, { showParticles: true, amplifier: 3 });
-  })
-  
-  poison.init();
-  
-  const brutality = new CustomEnchant("Brutality");
-  
-  brutality.on.entityHitEntity(({ damagingEntity: player, hitEntity: target, enchant }) => {
-      world.sendMessage(`§a§lINFO: §r§aBrutality hit ${target.typeId} for ${enchant.level * 0.3} damage`)
-      target.applyDamage(enchant.level * 0.3, { damagingEntity: player, cause: "entityAttack" });
-  })
-  
-  brutality.init();
-  
-  system.runInterval(() => {
-      const players = world.getAllPlayers()
-      for (const player of players) {
-          const inv = player.getComponent("minecraft:inventory").container
-          const item = inv.getItem(player.selectedSlot);
-          if (!item) continue;
-          let updatedItem = poison.addToItem(item);
-          updatedItem = brutality.addToItem(updatedItem, 100);
-          updatedItem = fixLore(updatedItem);
-          if (updatedItem) inv.setItem(player.selectedSlot, updatedItem);
-      }
-  })
-  
-  
-  const fixLore = (item) => {
-      const lore = item.getLore();
-      // sort from longest to shortest
-      lore.sort((a, b) => b.length - a.length);
-      item.setLore(lore);
-      return item;
-  }
-*/
-
-import {Player, system, world} from "@minecraft/server";
+import {ItemStack, system, world} from "@minecraft/server";
 
 const singulators = {
     enchantPrefix: "§e§n§c§a§n§t§r§b",
     enchantSplitter: "§s§p§l§i§t§t§e§r : §7"
 };
+const enchants = []
 export class CustomEnchant {
     constructor(name) {
         this.name = name;
         this.callbacks = {};
+        enchants.push(this);
     }
 
     get on() {
@@ -143,3 +99,64 @@ const getEnchantments = (item) => {
         return acc; // Return the accumulator
     }, []); // Initialize with an empty array
 }
+
+ItemStack.prototype.setCustomEnchantment =  function (name, level = 1) {
+    if (!enchants.some((e) => e.name === name)) throw new Error(`Enchantment ${name} does not exist!`);
+    const lore = this.getLore();
+    if (lore.some((l) => {
+        const [_, level] = l.replace(singulators.enchantPrefix, '').split(singulators.enchantSplitter);
+        return _ === name;
+    })) {
+        const index = lore.findIndex((l) => {
+            const [_, level] = l.replace(singulators.enchantPrefix, '').split(singulators.enchantSplitter);
+            return _ === name;
+        });
+        lore[index] = `${singulators.enchantPrefix}${name}${singulators.enchantSplitter}${level}`;
+        lore.sort((a, b) => b.length - a.length);
+        this.setLore(lore);
+        return this;
+    }
+    lore.push(`${singulators.enchantPrefix}${name}${singulators.enchantSplitter}${level}`);
+    lore.sort((a, b) => b.length - a.length);
+    this.setLore(lore);
+    return this;
+}
+ItemStack.prototype.removeCustomEnchantment = function (name) {
+    const lore = this.getLore();
+    if (!lore.some((l) => {
+        const [_, level] = l.replace(singulators.enchantPrefix, '').split(singulators.enchantSplitter);
+        return _ === name;
+    })) return this;
+    const index = lore.findIndex((l) => {
+        const [name, level] = l.replace(singulators.enchantPrefix, '').split(singulators.enchantSplitter);
+        return name === name;
+
+    });
+    lore.splice(index, 1);
+    lore.sort((a, b) => b.length - a.length);
+    this.setLore(lore);
+    return this;
+}
+ItemStack.prototype.getCustomEnchantment = function (name) {
+    const lore = this.getLore();
+    if (!lore.some((l) => {
+        const [_, level] = l.replace(singulators.enchantPrefix, '').split(singulators.enchantSplitter);
+        return _ === name;
+    })) return null;
+    const index = lore.findIndex((l) => {
+        const [name, level] = l.replace(singulators.enchantPrefix, '').split(singulators.enchantSplitter);
+        return name === name;
+
+    });
+    const [_, level] = lore[index].replace(singulators.enchantPrefix, '').split(singulators.enchantSplitter);
+    return { name: _, level: Number(level) };
+}
+ItemStack.prototype.getCustomEnchantments = function () {
+    const lore = this.getLore();
+    return lore.filter((line) => line.startsWith(singulators.enchantPrefix)).reduce((acc, line) => {
+        const [name, level] = line.replace(singulators.enchantPrefix, '').split(singulators.enchantSplitter);
+        acc.push({ name, level });
+        return acc; // Return the accumulator
+    }, []); // Initialize with an empty array
+}
+
