@@ -13,7 +13,11 @@ const cache = {}
  */
 
 const getScore = (target, objective) => {
-    if (typeof objective === "string") return (cache[objective] ??= world.scoreboard.getObjective(objective)).getScore(target)
+    if (typeof objective === "string") try {
+        return (cache[objective] ??= world.scoreboard.getObjective(objective))?.getScore(target) || 0
+    } catch {
+        return 0;
+    }
     // get all scores for all objectives
     return objective.reduce((acc, cur) => {
         try {
