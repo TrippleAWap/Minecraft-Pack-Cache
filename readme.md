@@ -8,7 +8,7 @@
 
 ## Introduction
 
-Welcome to the Minecraft Pack Cache repository! This project aims to speed up the creation process of Minecraft behaviour packs by providing a caching mechanism.
+Welcome to the Minecraft Pack Cache repository! This project aims to speed up the creation process of Minecraft behaviour packs by providing a cache of quick useful code.
 
 ## Features
 
