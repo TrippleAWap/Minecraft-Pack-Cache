@@ -1,5 +1,5 @@
 /**
-  This is most dynamic and auto updating! Only thing required to manually update may be import types and the tick event!
+  This is most dynamic and auto updating! Only thing required to manually update may be types! If types arent changed functionality shouldn't change either!
   Listed below is 2 custom enchants for reference!
   ---------------------------------------------------------------------------------------------------------------------
   const poison = new CustomEnchant("Poison");
