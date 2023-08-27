@@ -35,6 +35,8 @@
 
 import {ItemStack, system, world} from "@minecraft/server";
 
+console.warn(`Custom Enchants Initilized | .trippleawap.`) // to keep the script from lagging on start ( wont lag at all with out this but you might get a slow running script warningg when the script initializes ( first event executes ) )
+
 const singulators = {
     enchantPrefix: "§e§n§c§a§n§t§r§b",
     enchantSplitter: "§s§p§l§i§t§t§e§r : §7"
