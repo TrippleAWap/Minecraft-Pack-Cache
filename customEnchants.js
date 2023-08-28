@@ -91,7 +91,6 @@ export class CustomEnchant {
     init() {
         for (const event of Object.keys(this.callbacks)) {
             if (event === "tick") continue;
-            world.sendMessage(`§a§lINFO: §r§aInitializing event ${event} for enchantment ${this.name}`);
             world.afterEvents[event].subscribe((data) => {
                 const source = data[sourceFromEvent.find((s) => data[s])];
                 const item = source.getComponent("minecraft:inventory").container.getItem(source.selectedSlot);
