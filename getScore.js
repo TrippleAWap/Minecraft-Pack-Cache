@@ -7,9 +7,9 @@ const cache = {}
  *
  * @returns {Number | Object} The score of the objective, or an object containing all scores for all objectives
  *
- * @example getScore("player", "kills") // returns the value of the kills objective for the player ( 0 if not set )
+ * @example getScore(player, "kills") // returns the value of the kills objective for the player ( 0 if not set )
  *
- * @example getScore("player", ["kills", "deaths"]) // returns an object containing the values of the kills and deaths objectives for the player
+ * @example getScore(player, ["kills", "deaths"]) // returns an object containing the values of the kills and deaths objectives for the player
  */
 
 const getScore = (target, objective) => {
