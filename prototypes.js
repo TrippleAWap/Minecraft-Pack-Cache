@@ -1,7 +1,8 @@
-import {Player, world} from "@minecraft/server";
+import {Entity, Player, world} from "@minecraft/server";
 
 let scoreboards = {}
-Object.defineProperties(Player.prototype, {
+
+const newProps = {
     distanceTo: {
         value: function (x,y,z) {
             const { x: px, y: py, z: pz } = this.location
@@ -34,10 +35,20 @@ Object.defineProperties(Player.prototype, {
     blockLocation: {
         get() {
             const vals = ['x', 'y', 'z']
-            return Object.values(this.location).reduce((prev, curr, i) => prev[vals[i]] = Math.floor(curr), {}) // returns {x: 0, y: 0, z: 0}
+            return Object.values(this.getHeadLocation()).reduce((prev, curr, i) => prev[vals[i]] = Math.floor(curr), {}) // returns {x: 0, y: 0, z: 0}
         }
-    }
-})
+    },
+    data: new Proxy({}, {
+        get(_, comp) {
+            return _.getComponent(comp)
+        }
+    })
+}
+
+
+Object.defineProperties(Player.prototype, newProps)
+Object.defineProperties(Entity.prototype, newProps)
+
 Object.defineProperties(Number.prototype, {
     short: {
         get: function () {
