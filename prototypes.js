@@ -1,4 +1,4 @@
-import {Entity, Player, world} from "@minecraft/server";
+import {Entity, Player, World, world} from "@minecraft/server";
 
 let scoreboards = {}
 
@@ -44,7 +44,19 @@ const newProps = {
         }
     })
 }
-
+export const MessageTypes = {
+    server: "§7[§aZENITH§7]",
+    warning: "§7[§c!§7]"
+}
+const cB = World.prototype.sendMessage
+Object.defineProperties(World.prototype, {
+    sendMessage: {
+        value: function (message, type = "NA") {
+            if (type === "NA") return cB.call(world, message)
+            cB.call(world, `${MessageTypes[type]} ${message}`)
+        }
+    }
+})
 
 Object.defineProperties(Player.prototype, newProps)
 Object.defineProperties(Entity.prototype, newProps)
@@ -64,3 +76,4 @@ Object.defineProperties(Number.prototype, {
     }
 });
 
+console.log = console.warn
