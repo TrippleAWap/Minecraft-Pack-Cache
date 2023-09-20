@@ -119,7 +119,7 @@ export type EntityComponents = {
 }
 
 export type MessageTypes = {
-    server: "§7[§aZENITH§7]",
+    server: "§7[§aSERVER§7]",
     warning: "§7[§c!§7]"
 }
 // Extend the interface's
