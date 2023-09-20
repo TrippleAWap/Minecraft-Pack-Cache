@@ -7,7 +7,7 @@ export type EntityComponents = {
     'can_fly': MC.EntityCanFlyComponent
     'can_power_jump': MC.EntityCanPowerJumpComponent
     'color': MC.EntityColorComponent
-    "equipment_inventory": MC.EntityEquipmentInventoryComponent
+    "equippable": MC.EntityEquippableComponent
     'fire_immune': MC.EntityFireImmuneComponent
     'floats_in_liquid': MC.EntityFloatsInLiquidComponent
     'flying_speed': MC.EntityFlyingSpeedComponent
@@ -39,7 +39,7 @@ export type EntityComponents = {
     'minecraft:can_fly': MC.EntityCanFlyComponent
     'minecraft:can_power_jump': MC.EntityCanPowerJumpComponent
     'minecraft:color': MC.EntityColorComponent
-    "minecraft:equipment_inventory": MC.EntityEquipmentInventoryComponent
+    "minecraft:equippable": MC.EntityEquippableComponent
     'minecraft:fire_immune': MC.EntityFireImmuneComponent
     'minecraft:floats_in_liquid': MC.EntityFloatsInLiquidComponent
     'minecraft:flying_speed': MC.EntityFlyingSpeedComponent
