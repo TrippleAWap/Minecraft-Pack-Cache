@@ -1,5 +1,6 @@
-import {Entity, Player, World, world} from "@minecraft/server";
-
+import * as MC from "@minecraft/server"
+import * as MCUI from "@minecraft/server-ui"
+import {system} from "@minecraft/server";
 let scoreboards = {}
 
 const newProps = {
@@ -48,18 +49,67 @@ export const MessageTypes = {
     server: "§7[§aSERVER§7]",
     warning: "§7[§c!§7]"
 }
-const cB = World.prototype.sendMessage
-Object.defineProperties(World.prototype, {
+const cB = MC.World.prototype.sendMessage
+Object.defineProperties(MC.World.prototype, {
     sendMessage: {
         value: function (message, type = "NA") {
-            if (type === "NA") return cB.call(world, message)
-            cB.call(world, `${MessageTypes[type]} ${message}`)
+            if (type === "NA") return cB.call(MC.world, message)
+            cB.call(MC.world, `${MessageTypes[type]} ${message}`)
         }
     }
 })
 
-Object.defineProperties(Player.prototype, newProps)
-Object.defineProperties(Entity.prototype, newProps)
+Object.defineProperties(MC.Player.prototype, newProps)
+Object.defineProperties(MC.Entity.prototype, newProps)
+
+
+// Region Form Show Overrides -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+const showCB = MCUI.ActionFormData.prototype.show
+Object.defineProperties(MCUI.ActionFormData.prototype, {
+    show: {
+        value: async function (player, forceShow = false, overrideForce = false) {
+            if (overrideForce) player.currentForm = undefined;
+            if (player.currentForm !== undefined && player.currentForm !== this) return;
+            player.currentForm = this
+            const res = await showCB.call(this, player)
+            if (res.cancelationReason === "UserBusy") this.show(player, forceShow, overrideForce)
+            return res
+        }
+    }
+})
+
+const showCB2 = MCUI.ModalFormData.prototype.show
+Object.defineProperties(MCUI.ModalFormData.prototype, {
+    show: {
+        value: async function (player, forceShow = false, overrideForce = false) {
+            if (overrideForce) player.currentForm = undefined;
+            if (player.currentForm !== undefined && player.currentForm !== this) return;
+            player.currentForm = this
+            const res = await showCB2.call(this, player)
+            if (res.cancelationReason === "UserBusy") this.show(player, forceShow, overrideForce)
+            return res
+        }
+    }
+})
+
+const showCB3 = MCUI.MessageFormData.prototype.show
+Object.defineProperties(MCUI.MessageFormData.prototype, {
+    show: {
+        value: async function (player, forceShow = false, overrideForce = false) {
+            if (overrideForce) player.currentForm = undefined;
+            if (player.currentForm !== undefined && player.currentForm !== this) return;
+            player.currentForm = this
+            const res = await showCB3.call(this, player)
+            if (res.cancelationReason === "UserBusy") this.show(player, forceShow, overrideForce)
+            return res
+        }
+    }
+})
+
+// End Region Form Show Overrides -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 Object.defineProperties(Number.prototype, {
     short: {
