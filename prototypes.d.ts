@@ -1,4 +1,5 @@
 import * as MC from "@minecraft/server";
+import {ActionFormData, ActionFormResponse, MessageFormResponse, ModalFormResponse,} from "@minecraft/server-ui";
 export type EntityComponents = {
     'addrider': MC.EntityAddRiderComponent
     'ageable': MC.EntityAgeableComponent
@@ -127,7 +128,6 @@ declare module "@minecraft/server" {
     interface World {
         sendMessage<T extends keyof MessageTypes>(message: string, type?: T): void;
     }
-    
     interface Player {
         /**
          * Returns the distance between the player's head and the given coordinates.
@@ -173,6 +173,35 @@ declare module "@minecraft/server" {
     }
 }
 
+declare module "@minecraft/server-ui" {
+     class ActionFormData {
+         /**
+          * @param forceShow
+          * Whether to force show the form to the player. (default: false)
+          * @param overrideForce
+          * Whether to override the current form trying to force show. (default: false)
+          */
+        show(player: MC.Player, forceShow?: boolean, overrideForce?: boolean): Promise<ActionFormResponse>;
+    }
+     class ModalFormData {
+         /**
+          * @param forceShow
+          * Whether to force show the form to the player. (default: false)
+          * @param overrideForce
+          * Whether to override the current form trying to force show. (default: false)
+          */
+        show(player: MC.Player, forceShow?: boolean, overrideForce?: boolean): Promise<ModalFormResponse>;
+    }
+     class MessageFormData {
+         /**
+          * @param forceShow
+          * Whether to force show the form to the player. (default: false)
+          * @param overrideForce
+          * Whether to override the current form trying to force show. (default: false)
+          */
+        show(player: MC.Player, forceShow?: boolean, overrideForce?: boolean): Promise<MessageFormResponse>;
+    }
+}
 
 declare global {
     interface Number {
