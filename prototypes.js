@@ -45,7 +45,7 @@ const newProps = {
     })
 }
 export const MessageTypes = {
-    server: "§7[§aZENITH§7]",
+    server: "§7[§aSERVER§7]",
     warning: "§7[§c!§7]"
 }
 const cB = World.prototype.sendMessage
@@ -75,5 +75,4 @@ Object.defineProperties(Number.prototype, {
         }
     }
 });
-
-console.log = console.warn
+console.log = (...args) => console.warn.call(console, ...["§7[§cLOG§7]§r", ...args.map(e => typeof e === "object" ? JSON.stringify(e) : e)])
