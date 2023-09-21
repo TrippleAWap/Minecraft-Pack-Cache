@@ -1,7 +1,8 @@
 import * as MC from "@minecraft/server"
 import * as MCUI from "@minecraft/server-ui"
-import {system} from "@minecraft/server";
 let scoreboards = {}
+
+const sendMessage = MC.Player.prototype.sendMessage
 
 const newProps = {
     distanceTo: {
@@ -17,14 +18,14 @@ const newProps = {
             return new Proxy({}, {
                 get(target, key) {
                     try {
-                        return (scoreboards[key] ??= world.scoreboard.getObjective(key)).getScore(player) ?? 0;
+                        return (scoreboards[key] ??= MC.world.scoreboard.getObjective(key)).getScore(player) ?? 0;
                     } catch {
                         return 0;
                     }
                 },
                 set(target, key, value) {
                     try {
-                        (scoreboards[key] ??= world.scoreboard.getObjective(key)).setScore(player, value)
+                        (scoreboards[key] ??= MC.world.scoreboard.getObjective(key)).setScore(player, value)
                     } catch {
                         player.runCommandAsync(`scoreboard players set @s ${key} ${value}`)
                     }
@@ -39,11 +40,12 @@ const newProps = {
             return Object.values(this.getHeadLocation()).reduce((prev, curr, i) => prev[vals[i]] = Math.floor(curr), {}) // returns {x: 0, y: 0, z: 0}
         }
     },
-    data: new Proxy({}, {
-        get(_, comp) {
-            return _.getComponent(comp)
+    sendMessage: {
+        value: function (message, type = "NA") {
+            if (type === "NA") return sendMessage.call(this, message)
+            sendMessage.call(this, `${MessageTypes[type]} ${message}`)
         }
-    })
+    }
 }
 export const MessageTypes = {
     server: "§7[§aSERVER§7]",
@@ -66,15 +68,32 @@ Object.defineProperties(MC.Entity.prototype, newProps)
 // Region Form Show Overrides -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 const showCB = MCUI.ActionFormData.prototype.show
+const buttonCB = MCUI.ActionFormData.prototype.button
 Object.defineProperties(MCUI.ActionFormData.prototype, {
     show: {
         value: async function (player, forceShow = false, overrideForce = false) {
-            if (overrideForce) player.currentForm = undefined;
-            if (player.currentForm !== undefined && player.currentForm !== this) return;
-            player.currentForm = this
-            const res = await showCB.call(this, player)
-            if (res.cancelationReason === "UserBusy") this.show(player, forceShow, overrideForce)
+            let res
+            MC.system.run(async () => {
+                if (overrideForce) player.currentForm = undefined;
+                if (player.currentForm !== undefined && player.currentForm !== this) return;
+                player.currentForm = this
+                res = await showCB.call(this, player);
+                if (res.cancelationReason === "UserBusy") this.show(player, forceShow, overrideForce)
+                player.currentForm = undefined
+                const callback = this.callbacks[res.selection]
+                if (callback && callback !== undefined) callback(player, res.selection)
+            })
             return res
+        }
+    },
+    button: {
+        value: function (text, iconPath = null, callback = undefined) {
+            MC.system.run(() => {
+                (this.callbacks ??= {})[this.buttonCount ??= 0] = callback
+                this.buttonCount++
+                buttonCB.call(this, text, iconPath)
+            })
+            return this
         }
     }
 })
@@ -109,8 +128,6 @@ Object.defineProperties(MCUI.MessageFormData.prototype, {
 
 // End Region Form Show Overrides -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-
 Object.defineProperties(Number.prototype, {
     short: {
         get: function () {
@@ -126,3 +143,9 @@ Object.defineProperties(Number.prototype, {
     }
 });
 console.log = (...args) => console.warn.call(console, ...["§7[§cLOG§7]§r", ...args.map(e => typeof e === "object" ? JSON.stringify(e) : e)])
+
+const savedCB = console.warn;
+console.warn = (...args) => {
+    if (console.disabled) return;
+    savedCB.call(console, ...args)
+}
