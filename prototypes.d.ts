@@ -146,6 +146,7 @@ declare module "@minecraft/server" {
             y: number;
             z: number;
         };
+        sendMessage<T extends keyof MessageTypes>(message: string, type?: T): void;
 
         getComponent<T extends keyof EntityComponents>(componentId: T): EntityComponents[T]
     }
@@ -168,6 +169,7 @@ declare module "@minecraft/server" {
             y: number;
             z: number;
         };
+        sendMessage<T extends keyof MessageTypes>(message: string, type?: T): void;
 
         getComponent<T extends keyof EntityComponents>(componentId: T): EntityComponents[T]
     }
@@ -182,6 +184,7 @@ declare module "@minecraft/server-ui" {
           * Whether to override the current form trying to force show. (default: false)
           */
         show(player: MC.Player, forceShow?: boolean, overrideForce?: boolean): Promise<ActionFormResponse>;
+        button(text: string, iconPath?: string, callback?: (player: MC.Player) => void): ActionFormData;
     }
      class ModalFormData {
          /**
@@ -209,5 +212,9 @@ declare global {
          * Returns the number as a string with a suffix. (e.g. 1000 -> 1k)
          */
         get short(): string;
+    }
+
+    interface Console {
+        disabled?: boolean;
     }
 }
