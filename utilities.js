@@ -47,7 +47,7 @@ const newProps = {
         }
     }
 }
-export const MessageTypes = {
+const MessageTypes = {
     server: "§7[§aSERVER§7]",
     warning: "§7[§c!§7]"
 }
