@@ -13,7 +13,7 @@ Welcome to the Minecraft Pack Cache repository! This project aims to speed up th
 ## Features
 
 - Cache and serve Minecraft behaviour packs.
-- Speed up download times for players.
+- Speed up behaviour pack creation times for players.
 - Efficient and easy-to-use.
 
 ## Getting Started
