@@ -1,5 +1,5 @@
 import * as MC from "@minecraft/server";
-import {ActionFormData, ActionFormResponse, MessageFormResponse, ModalFormResponse,} from "@minecraft/server-ui";
+import * as MCUI from "@minecraft/server-ui"
 export type EntityComponents = {
     'addrider': MC.EntityAddRiderComponent
     'ageable': MC.EntityAgeableComponent
@@ -183,8 +183,8 @@ declare module "@minecraft/server-ui" {
           * @param overrideForce
           * Whether to override the current form trying to force show. (default: false)
           */
-        show(player: MC.Player, forceShow?: boolean, overrideForce?: boolean): Promise<ActionFormResponse>;
-        button(text: string, iconPath?: string, callback?: (player: MC.Player) => void): ActionFormData;
+        show(player: MC.Player, forceShow?: boolean, overrideForce?: boolean): Promise<MCUI.ActionFormResponse>;
+        button(text: string, iconPath?: string, callback?: (player: MC.Player) => void): MCUI.ActionFormData;
     }
      class ModalFormData {
          /**
@@ -193,7 +193,7 @@ declare module "@minecraft/server-ui" {
           * @param overrideForce
           * Whether to override the current form trying to force show. (default: false)
           */
-        show(player: MC.Player, forceShow?: boolean, overrideForce?: boolean): Promise<ModalFormResponse>;
+        show(player: MC.Player, forceShow?: boolean, overrideForce?: boolean): Promise<MCUI.ModalFormResponse>;
     }
      class MessageFormData {
          /**
@@ -202,7 +202,7 @@ declare module "@minecraft/server-ui" {
           * @param overrideForce
           * Whether to override the current form trying to force show. (default: false)
           */
-        show(player: MC.Player, forceShow?: boolean, overrideForce?: boolean): Promise<MessageFormResponse>;
+        show(player: MC.Player, forceShow?: boolean, overrideForce?: boolean): Promise<MCUI.MessageFormResponse>;
     }
 }
 
