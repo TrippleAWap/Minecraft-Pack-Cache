@@ -1,6 +1,6 @@
 # Minecraft Pack Cache
 
-> A repository for caching Minecraft behaviour packs for loss prevention aswell as a way to supply the MCBE Community with efficient scripting api examples!
+> A repository for caching Minecraft behaviour packs for loss prevention aswell as a way to supply the MCBE Community with efficient scripting api examples or ulitities!
 
 [![Mozilla Public License 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/TrippleAWap/Minecraft-Pack-Cache.svg)](https://github.com/TrippleAWap/Minecraft-Pack-Cache/stargazers)
