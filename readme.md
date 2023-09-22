@@ -23,7 +23,7 @@ This project is made possible by contributions from the following amazing indivi
 1. **TrippleAWap**
    - GitHub: [@TrippleAWap](https://github.com/TrippleAWap)
    - Discord: `.trippleawap.`
-   - Contributions: [Profile](https://github.com/TrippleAWap/Minecraft-Pack-Cache/graphs/contributors?author=TrippleAwap)
+   - Contributions: [Profile](https://github.com/TrippleAWap/Minecraft-Pack-Cache/graphs/contributors?author=TrippleAWap)
 #
 Special thanks to all our contributors for their valuable input and support in making this project successful.
 If you'd like to contribute to this project, please contact me at `.trippleawap.` on [Discord](https://discord.gg/) for more information on how to get involved.
