@@ -16,11 +16,13 @@ Welcome to the Minecraft Pack Cache repository! This project aims to speed up th
 - Speed up behaviour pack creation times for players.
 - Efficient and easy-to-use.
 
-## Getting Started
+## Contributors
 
-To get started with Minecraft Pack Cache, follow these steps:
+This project is made possible by contributions from the following amazing individuals:
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/TrippleAWap/Minecraft-Pack-Cache.git
-   cd Minecraft-Pack-Cache
+1. **TrippleAWap**
+   - GitHub: [@TrippleAWap](https://github.com/TrippleAWap)
+   - Discord: `.trippleawap.`
+   - Contributions: [Profile](https://github.com/TrippleAWap/Minecraft-Pack-Cache/graphs/contributors?author=TrippleAwap)
+Special thanks to all our contributors for their valuable input and support in making this project successful.
+If you'd like to contribute to this project, please contact me at `.trippleawap.` on [Discord](https://discord.gg/) for more information on how to get involved.
