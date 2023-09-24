@@ -36,8 +36,8 @@ const newProps = {
     },
     blockLocation: {
         get() {
-            const vals = ['x', 'y', 'z']
-            return Object.values(this.getHeadLocation()).reduce((prev, curr, i) => prev[vals[i]] = Math.floor(curr), {}) // returns {x: 0, y: 0, z: 0}
+            const location = this.location
+            return { x: Math.floor(location.x), y: Math.floor(location.y), z: Math.floor(location.z) }
         }
     },
     sendMessage: {
