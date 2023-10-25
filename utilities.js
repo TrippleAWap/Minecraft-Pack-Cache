@@ -1,5 +1,6 @@
 import * as MC from "@minecraft/server"
 import * as MCUI from "@minecraft/server-ui"
+import {system, Vector} from "@minecraft/server";
 let scoreboards = {}
 
 const sendMessage = MC.Player.prototype.sendMessage
@@ -37,7 +38,7 @@ const newProps = {
     blockLocation: {
         get() {
             const location = this.location
-            return { x: Math.floor(location.x), y: Math.floor(location.y), z: Math.floor(location.z) }
+            return { x: Math.floor(location.x), y:  Math.floor(location.y), z:  Math.floor(location.z) }
         }
     },
     sendMessage: {
@@ -47,7 +48,7 @@ const newProps = {
         }
     }
 }
-const MessageTypes = {
+export const MessageTypes = {
     server: "§7[§aSERVER§7]",
     warning: "§7[§c!§7]"
 }
@@ -72,26 +73,33 @@ const buttonCB = MCUI.ActionFormData.prototype.button
 Object.defineProperties(MCUI.ActionFormData.prototype, {
     show: {
         value: async function (player, forceShow = false, overrideForce = false) {
-            let res
-            MC.system.run(async () => {
-                if (overrideForce) player.currentForm = undefined;
-                if (player.currentForm !== undefined && player.currentForm !== this) return;
-                player.currentForm = this
-                res = await showCB.call(this, player);
-                if (res.cancelationReason === "UserBusy") this.show(player, forceShow, overrideForce)
-                player.currentForm = undefined
-                const callback = this.callbacks[res.selection]
-                if (callback && callback !== undefined) callback(player, res.selection)
+            return new Promise(resolve => {
+                let res;
+                const form = this
+                const tryShow = async () => {
+                    const res = await showCB.call(form, player);
+                    if (res.cancelationReason === "UserBusy") return await tryShow()
+                    return res;
+                }
+                MC.system.run(async () => {
+                    if (overrideForce) player.currentForm = undefined;
+                    if (player.currentForm !== undefined && player.currentForm !== this) return;
+                    player.currentForm = this
+                    res = await tryShow()
+                    player.currentForm = undefined
+                    const callback = this.callbacks[res.selection]
+                    if (callback && callback !== undefined) callback.call(this, player, res.selection)
+                    resolve(res)
+                })
             })
-            return res
         }
     },
     button: {
         value: function (text, iconPath = null, callback = undefined) {
             MC.system.run(() => {
+                buttonCB.call(this, text, iconPath);
                 (this.callbacks ??= {})[this.buttonCount ??= 0] = callback
                 this.buttonCount++
-                buttonCB.call(this, text, iconPath)
             })
             return this
         }
@@ -102,12 +110,23 @@ const showCB2 = MCUI.ModalFormData.prototype.show
 Object.defineProperties(MCUI.ModalFormData.prototype, {
     show: {
         value: async function (player, forceShow = false, overrideForce = false) {
-            if (overrideForce) player.currentForm = undefined;
-            if (player.currentForm !== undefined && player.currentForm !== this) return;
-            player.currentForm = this
-            const res = await showCB2.call(this, player)
-            if (res.cancelationReason === "UserBusy") this.show(player, forceShow, overrideForce)
-            return res
+            return new Promise(resolve => {
+                let res;
+                const form = this
+                const tryShow = async () => {
+                    const res = await showCB2.call(form, player);
+                    if (res.cancelationReason === "UserBusy") return await tryShow()
+                    return res;
+                }
+                MC.system.run(async () => {
+                    if (overrideForce) player.currentForm = undefined;
+                    if (player.currentForm !== undefined && player.currentForm !== this) return;
+                    player.currentForm = this
+                    res = await tryShow()
+                    player.currentForm = undefined
+                    resolve(res)
+                })
+            })
         }
     }
 })
@@ -116,12 +135,23 @@ const showCB3 = MCUI.MessageFormData.prototype.show
 Object.defineProperties(MCUI.MessageFormData.prototype, {
     show: {
         value: async function (player, forceShow = false, overrideForce = false) {
-            if (overrideForce) player.currentForm = undefined;
-            if (player.currentForm !== undefined && player.currentForm !== this) return;
-            player.currentForm = this
-            const res = await showCB3.call(this, player)
-            if (res.cancelationReason === "UserBusy") this.show(player, forceShow, overrideForce)
-            return res
+            return new Promise(resolve => {
+                let res;
+                const form = this
+                const tryShow = async () => {
+                    const res = await showCB3.call(form, player);
+                    if (res.cancelationReason === "UserBusy") return await tryShow()
+                    return res;
+                }
+                MC.system.run(async () => {
+                    if (overrideForce) player.currentForm = undefined;
+                    if (player.currentForm !== undefined && player.currentForm !== this) return;
+                    player.currentForm = this
+                    res = await tryShow()
+                    player.currentForm = undefined
+                    resolve(res)
+                })
+            })
         }
     }
 })
